@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>横向き専用ページ</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+        .landscape-content {
+            display: none;
+        }
+        .portrait-message {
+            display: block;
+            font-size: 24px;
+        }
+        @media screen and (orientation: landscape) {
+            .landscape-content {
+                display: block;
+                font-size: 32px;
+            }
+            .portrait-message {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="portrait-message">スマホを横向きにしてください</div>
+    <div class="landscape-content">ようこそ！横向きでご覧ください</div>
+</body>
+</html>
