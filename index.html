@@ -22,6 +22,8 @@ canvas {
 const canvas = document.getElementById('myCanvas');
 const ctx = canvas.getContext('2d');
 
+
+
 function resizeCanvas() {
   const aspectRatio = 16 / 9;
   let width = window.innerWidth;
@@ -52,18 +54,48 @@ function draw(){
     ctx.fillStyle = 'lightblue';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     let position=rate2positon(5,45)
+
+
     let x = position.x
     let y = position.y
     let r = rate2positon(2.5,0).x
     console.log("x:"+x+" y:"+y+" r:"+r)
+
+
     //
     ctx.fillStyle= "black";
 
     /* 円の描画 */
+    /*
     ctx.beginPath(); // パスの初期化
-    ctx.arc(x, y, r, 0, 2 * Math.PI); // (100, 50)の位置に半径30pxの円
+    //ctx.arc(x, y, r, 0, 2 * Math.PI); // (100, 50)の位置に半径30pxの円
     ctx.closePath(); // パスを閉じる
     ctx.fill(); // 軌跡の範囲を塗りつぶす
+    */
+    const buttons = [
+            new CircleButton(x, y, r, "blue"),
+            new CircleButton(canvas.width-x, y, r, "green"),
+        ];
+    canvas.addEventListener("click", function(event) {
+            const rect = canvas.getBoundingClientRect();
+            const mouseX = event.clientX - rect.left;
+            const mouseY = event.clientY - rect.top;
+
+            buttons.forEach(button => {
+                if (button.isClicked(mouseX, mouseY)) {
+                    button.handleClick(); // 設定されたイベントを実行
+                    
+                }
+            });
+        });
+        buttons[0].onClick(button => {
+            button.color = button.color === "blue" ? "red" : "blue";
+        });
+
+        buttons[1].onClick(button => {
+            button.color = button.color === "green" ? "yellow" : "green";
+        });
+
 }
 
 function update(){
@@ -80,5 +112,6 @@ window.addEventListener('resize', resizeCanvas);
 gameLoop()
 
 </script>
+<script src="CircleButton.js"></script>
 </body>
 </html>
