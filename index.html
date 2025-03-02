@@ -58,7 +58,12 @@ function draw(){
     console.log("x:"+x+" y:"+y+" r:"+r)
     //
     ctx.fillStyle= "black";
-    ctx.fillCircle(x, y, r, "black");
+    
+    /* 円の描画 */
+    ctx.beginPath(); // パスの初期化
+    ctx.arc(100, 50, 30, 0, 2 * Math.PI); // (100, 50)の位置に半径30pxの円
+    ctx.closePath(); // パスを閉じる
+    ctx.fill(); // 軌跡の範囲を塗りつぶす
 }
 
 function update(){
