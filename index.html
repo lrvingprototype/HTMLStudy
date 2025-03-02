@@ -44,6 +44,16 @@ const ctx = canvas.getContext('2d');
  * 
  * 
  * 
+ * **************************************/
+
+let PlayerMoveFlag={
+    left:false,
+    right:false,
+}
+
+
+ /***************************************
+ * 
  * 
  * 
  * 
@@ -85,24 +95,41 @@ const buttons = [
             new CircleButton(x, y, r, "blue"),
             new CircleButton(canvas.width-x, y, r, "green"),
         ];
-    canvas.addEventListener("click", function(event) {
+        // イベントリスナーを統一
+        function handlePress(event) {
+            event.preventDefault(); // タッチ操作のスクロール防止
             const rect = canvas.getBoundingClientRect();
-            const mouseX = event.clientX - rect.left;
-            const mouseY = event.clientY - rect.top;
+            let mouseX, mouseY;
+
+            if (event.touches) { // タッチデバイス対応
+                mouseX = event.touches[0].clientX - rect.left;
+                mouseY = event.touches[0].clientY - rect.top;
+            } else { // マウス
+                mouseX = event.clientX - rect.left;
+                mouseY = event.clientY - rect.top;
+            }
 
             buttons.forEach(button => {
                 if (button.isClicked(mouseX, mouseY)) {
                     button.handleClick(); // 設定されたイベントを実行
-                    
+                    draw(); // 再描画
                 }
             });
-        });
+        }
+
+        // イベント登録 (マウス & タッチ対応)
+        canvas.addEventListener("mousedown", handlePress);
+        canvas.addEventListener("touchstart", handlePress);
+
+
         buttons[0].onClick(button => {
             button.color = button.color === "blue" ? "red" : "blue";
+            PlayerMoveFlag.left=true;
         });
 
         buttons[1].onClick(button => {
             button.color = button.color === "green" ? "yellow" : "green";
+            PlayerMoveFlag.right=true;
         });
 function draw(){
     //全体の描画
@@ -135,7 +162,12 @@ function draw(){
 }
 
 function update(){
+    if(PlayerMoveFlag.left && !PlayerMoveFlag.right){
 
+    }
+    if(!PlayerMoveFlag.left && PlayerMoveFlag.right){
+
+    }
 }
 
 
