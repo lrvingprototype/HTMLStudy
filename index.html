@@ -21,9 +21,68 @@ canvas {
 <script>
 const canvas = document.getElementById('myCanvas');
 const ctx = canvas.getContext('2d');
-</script>
-<script src="CircleButton.js"></script>
-<script>
+
+
+
+
+
+/*****************************************
+ * 
+ * 
+ * 
+ *  クラス
+ * 
+ * 
+ * 
+ * **************************************/
+
+class CircleButton {
+    constructor(x, y, radius, color) {
+        this.x = x;
+        this.y = y;
+        this.radius = radius;
+        this.color = color;
+        this.clickHandler = null; // クリック時のイベント関数
+    }
+
+    // 円を描画する
+    draw(ctx) {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        ctx.fillStyle = this.color;
+        ctx.fill();
+        ctx.closePath();
+    }
+
+    // クリックされたか判定
+    isClicked(mouseX, mouseY) {
+        const distance = Math.sqrt((mouseX - this.x) ** 2 + (mouseY - this.y) ** 2);
+        return distance < this.radius;
+    }
+
+    // クリック時のイベントを設定
+    onClick(callback) {
+        this.clickHandler = callback;
+    }
+
+    // クリックされた時の処理
+    handleClick() {
+        if (this.clickHandler) {
+            this.clickHandler(this);
+        }
+    }
+}
+
+/*****************************************
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * **************************************/
+
 function resizeCanvas() {
   const aspectRatio = 16 / 9;
   let width = window.innerWidth;
@@ -66,12 +125,12 @@ function draw(){
     ctx.fillStyle= "black";
 
     /* 円の描画 */
-    /*
+    
     ctx.beginPath(); // パスの初期化
     //ctx.arc(x, y, r, 0, 2 * Math.PI); // (100, 50)の位置に半径30pxの円
     ctx.closePath(); // パスを閉じる
     ctx.fill(); // 軌跡の範囲を塗りつぶす
-    */
+    
     const buttons = [
             new CircleButton(x, y, r, "blue"),
             new CircleButton(canvas.width-x, y, r, "green"),
