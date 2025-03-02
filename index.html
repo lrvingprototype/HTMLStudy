@@ -41,7 +41,38 @@ function resizeCanvas() {
 }
 
 resizeCanvas();
+
+
+function rate2positon(x0,y0){
+    return positon={x:x0*canvas.width/100,y:y0*canvas.height/100}
+}
+
+function draw(){
+    //全体の描画
+    ctx.fillStyle = 'lightblue';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    let x,y=rate2positon(5,45)
+    let r=rate2positon(10,0).x
+    console.log("x:"+x+" y:"+y+" r:"+r)
+    //
+    ctx.fillStyle= "black";
+    ctx.fillcircle(x, y, r, "black");
+}
+
+function update(){
+
+}
+
+
+function gameLoop(){
+    update()
+    draw()
+    requestAnimationFrame(gameLoop);
+}
 window.addEventListener('resize', resizeCanvas);
+
+
 </script>
 </body>
 </html>
