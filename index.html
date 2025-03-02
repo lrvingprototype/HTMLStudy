@@ -1,40 +1,45 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>横向き専用ページ</title>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            text-align: center;
-            font-family: Arial, sans-serif;
-        }
-        .landscape-content {
-            display: none;
-        }
-        .portrait-message {
-            display: block;
-            font-size: 24px;
-        }
-        @media screen and (orientation: landscape) {
-            .landscape-content {
-                display: block;
-                font-size: 32px;
-            }
-            .portrait-message {
-                display: none;
-            }
-        }
-    </style>
+<title>Canvasサイズ調整</title>
+<style>
+body {
+  margin: 0;
+  overflow: hidden; /* スクロールバーを非表示にする */
+}
+canvas {
+  display: block;
+}
+</style>
 </head>
 <body>
-    <div class="portrait-message">スマホを横向きにしてください</div>
-    <div class="landscape-content">ようこそ！横向きでご覧ください</div>
+<canvas id="myCanvas"></canvas>
+<script>
+const canvas = document.getElementById('myCanvas');
+const ctx = canvas.getContext('2d');
+
+function resizeCanvas() {
+  const aspectRatio = 16 / 9; // 縦横比
+  let width = window.innerWidth;
+  let height = window.innerHeight;
+
+  if (width / height > aspectRatio) {
+    width = height * aspectRatio;
+  } else {
+    height = width / aspectRatio;
+  }
+
+  canvas.width = width;
+  canvas.height = height;
+
+  // Canvasの内容を再描画する場合はここにコードを追加
+  ctx.fillStyle = 'lightblue';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+}
+
+// 初期化とリサイズ時にCanvasサイズを調整
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+</script>
 </body>
 </html>
